@@ -53,7 +53,6 @@ LIBS := ./$(LIBDIR)/$(DEVICE_FAMILY)_HAL_Driver/libstm32fw.a
 #LIBS += ./$(MDLDIR)/ST/STM32_USB_Device_Library/libstm32usbdev.a
 #LIBS += ./$(MDLDIR)/ST/STM32_USB_Host_Library/libstm32usbhost.a
 	   
-LIBS += -lm
 CC      = $(SYSTEM)-gcc
 CCDEP   = $(SYSTEM)-gcc
 LD      = $(SYSTEM)-gcc
@@ -70,7 +69,7 @@ OCD	= sudo openocd \
 INCLUDES = $(LIBINC)
 CFLAGS  = $(CPU) $(CMSIS_OPT) $(OTHER_OPT) -Wall -fno-common -fno-strict-aliasing -O2 $(INCLUDES) -g -Wfatal-errors -g 
 ASFLAGS = $(CFLAGS) -x assembler-with-cpp
-LDFLAGS = -Wl,--gc-sections,-Map=$*.map,-cref -T $(LDSCRIPT) $(CPU)
+LDFLAGS = -Wl,--gc-sections,-Map=$*.map,-cref -T $(LDSCRIPT) $(CPU) -lm
 ARFLAGS = cr
 OBJCOPYFLAGS = -Obinary
 OBJDUMPFLAGS = -S
@@ -95,7 +94,7 @@ flash: $(BIN)
 	               -c "flash write_image erase "$(BIN)" 0x08000000" \
 			       -c "reset run" \
 	               -c shutdown
-	
+
 $(BIN): main.out
 	$(OBJCOPY) $(OBJCOPYFLAGS) main.out $(BIN)
 	$(OBJDUMP) $(OBJDUMPFLAGS) main.out > main.list
