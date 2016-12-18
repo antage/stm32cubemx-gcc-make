@@ -69,7 +69,7 @@ OCD	= sudo openocd \
 		-f target/stm32f4x_stlink.cfg
 
 INCLUDES = $(LIBINC)
-CFLAGS  = $(CPU) $(CMSIS_OPT) $(OTHER_OPT) -Wall -Wfatal-errors -fno-common -fno-strict-aliasing -O2 $(INCLUDES)
+CFLAGS  = $(CPU) $(CMSIS_OPT) $(OTHER_OPT) -Wall -Wfatal-errors -fno-common -fno-strict-aliasing -O2 -g $(INCLUDES)
 ifeq ($(DEBUG),true)
 	CFLAGS += -DDEBUG
 endif
