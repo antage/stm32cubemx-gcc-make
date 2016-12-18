@@ -1,5 +1,7 @@
 export
 
+DEBUG = false
+
 DEVICE_FAMILY = STM32F4xx
 DEVICE_TYPE = STM32F429xx
 DEVICE_MODEL = STM32F429ZI
@@ -67,9 +69,15 @@ OCD	= sudo openocd \
 		-f target/stm32f4x_stlink.cfg
 
 INCLUDES = $(LIBINC)
-CFLAGS  = $(CPU) $(CMSIS_OPT) $(OTHER_OPT) -Wall -fno-common -fno-strict-aliasing -O2 $(INCLUDES) -g -Wfatal-errors -g 
+CFLAGS  = $(CPU) $(CMSIS_OPT) $(OTHER_OPT) -Wall -Wfatal-errors -fno-common -fno-strict-aliasing -O2 $(INCLUDES)
+ifeq ($(DEBUG),true)
+	CFLAGS += -DDEBUG
+endif
 ASFLAGS = $(CFLAGS) -x assembler-with-cpp
 LDFLAGS = -Wl,--gc-sections,-Map=$*.map,-cref -T $(LDSCRIPT) $(CPU) -lm
+ifeq ($(DEBUG),true)
+	LDFLAGS += --specs=rdimon.specs
+endif
 ARFLAGS = cr
 OBJCOPYFLAGS = -Obinary
 OBJDUMPFLAGS = -S

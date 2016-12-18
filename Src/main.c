@@ -78,7 +78,11 @@ int main(void)
   MX_GPIO_Init();
 
   /* USER CODE BEGIN 2 */
-
+#ifdef DEBUG
+  setbuf(stdout, NULL);
+  printf("Are you ready? (press any key)\r\n");
+  getchar();
+#endif
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -91,6 +95,9 @@ int main(void)
     HAL_GPIO_TogglePin(LED_Red_GPIO_Port, LED_Red_Pin);
     HAL_GPIO_TogglePin(LED_Green_GPIO_Port, LED_Green_Pin);
     HAL_Delay(500);
+#ifdef DEBUG
+	printf(".");
+#endif
   }
   /* USER CODE END 3 */
 
