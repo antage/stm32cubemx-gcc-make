@@ -80,7 +80,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 #ifdef DEBUG
   setbuf(stdout, NULL);
-  printf("Are you ready? (press any key)\r\n");
+  printf("Are you ready? (press enter to continue)\r\n");
   getchar();
 #endif
   /* USER CODE END 2 */
